@@ -1,5 +1,5 @@
 library(shiny)
-library(hoopR)
+# library(hoopR)
 library(memoise)
 library(tidyverse)
 Sys.setenv("VROOM_CONNECTION_SIZE" = 2*131072)
