@@ -8,12 +8,9 @@ source("age_curve_functions.R")
 
 
 # Load Data
-perposs <- read_csv("data/perposs.csv")
 advanced <- read_csv("data/advanced.csv")
 draft <- read_csv("data/draft.csv")
 
-perposs <- perposs %>%
-  relocate(all_of(c("player_id", "season")), .after = player)
 advanced <- advanced %>%
   relocate(all_of(c("player_id", "season")), .after = player)
 
