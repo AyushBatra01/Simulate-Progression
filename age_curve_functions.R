@@ -38,7 +38,7 @@ theme_bbs <- function() {
 
 #### DATA COLLECTION ####
 
-collect_stats <- function(table, variable, minimum_mp = 500, minimum_g = 1, wt_var = "mp") {
+collect_stats <- function(table, variable, draft, minimum_mp = 500, minimum_g = 1, wt_var = "mp") {
   new_table <- table %>%
     mutate(current_stat = !!sym(variable)) %>%
     group_by(player_id) %>%

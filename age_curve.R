@@ -33,7 +33,8 @@ draft <- draft %>%
 advanced <- advanced %>%
   mutate(WAR_82 = 82 * 2.70 * vorp / g)
 
-player_df <- collect_stats(advanced, "WAR_82", minimum_mp = 1, minimum_g = 25, wt_var = "g")
+player_df <- collect_stats(advanced, "WAR_82", draft, 
+                           minimum_mp = 1, minimum_g = 25, wt_var = "g")
 player_df <- add_career_progression(player_df, alpha = 0.5, wt_var = "g")
 player_df <- player_df %>% mutate(log_pick = log(pick_overall))
 
