@@ -29,6 +29,8 @@ advanced <- advanced %>%
 # player_df <- player_df %>% mutate(log_pick = log(pick_overall))
 player_df <- read_csv("data/player_df.csv")
 
+print("ALL DATA LOADED")
+
 
 temp <- advanced %>%
   distinct(player_id, player) %>%
@@ -46,6 +48,7 @@ advanced <- advanced %>%
 
 
 # Processing
+print("START PROCESSING")
 set.seed(123)
 split <- trainTestSplit(player_df)
 player_train <- split$train
@@ -56,10 +59,12 @@ response <- "raw_change"
 Xy_train <- formatMatrix(player_train, features, response, secondOrder = TRUE)
 X_train <- Xy_train %>% select(-all_of(response)) %>% as.matrix()
 zInfo <- storeZInfo(Xy_train)
+print("END PROCESSING")
 
 
 
 # Get Model Data
+print("GET SAVES")
 saves <- list()
 files <- c("p", "beta", "sigma2", "sigma2_p", "sigma2_beta")
 for (f in files) {
@@ -80,6 +85,7 @@ final <- list(
   sigma2_beta = setNames(colMeans(saves$sigma2_beta), colnames(X_train)),
   sigma2_var_beta = var(saves$sigma2_beta)
 )
+print("END GET SAVES")
 
 
 
@@ -266,6 +272,7 @@ yearFilter <- function(yr) {
 
 
 
+print("DEFINE UI/SERVER")
 
 ui <- fluidPage(
   title = "Player Development Simulation",
@@ -325,11 +332,10 @@ server <- function(input, output, session) {
     nyr(as.numeric(input$n_yr))
     fut(input$future)
     
-    new_tm <- advanced %>%
+    p_row <- advanced %>%
       filter(player_id == player(),
-             season == year()) %>%
-      pull(team_id)
-    
+             season == year())
+    new_tm <- p_row$team_id
     team(new_tm)
   })
   
