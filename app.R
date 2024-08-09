@@ -242,8 +242,10 @@ simulate_career2 <- function(player_id, season, n_sim, n_years, saves,
 
 
 
-
-team_data <- hoopR::nba_teams()
+print("LOAD TEAM DATA")
+# team_data <- hoopR::nba_teams()
+team_data <- read_csv("data/team_data.csv")
+print("END LOAD TEAM DATA")
 
 get_team_colors <- function(team_df, tm_abbrev) {
   i <- which(team_df$team_abbreviation == tm_abbrev)
