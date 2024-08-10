@@ -93,7 +93,8 @@ change_by_lag <- player_df %>%
   mutate(lag_stat = ifelse(lag_stat > 20, 19.9, lag_stat),
          lag_category = classify_performance(lag_stat)) %>%
   ggplot(aes(x = raw_change)) +
-  geom_histogram(aes(y = after_stat(density)), fill = MY_COLOR, color = 'black') +
+  geom_histogram(aes(y = after_stat(density)), 
+                 fill = MY_COLOR, color = 'black', linewidth = 0.25) +
   facet_wrap(~lag_category) +
   labs(x = "Change in WAR/82",
        y = "",
@@ -117,7 +118,8 @@ change_by_pick <- player_df %>%
   mutate(pick_category = factor(pick_category, 
                                 levels = c("Top 5", "Lottery", "First Round", "Second Round", "Undrafted"))) %>%
   ggplot(aes(x = raw_change)) +
-  geom_histogram(aes(y = after_stat(density)), fill = MY_COLOR, color = 'black') +
+  geom_histogram(aes(y = after_stat(density)), 
+                 fill = MY_COLOR, color = 'black', linewidth = 0.25) +
   facet_wrap(~pick_category) +
   labs(x = "Change in WAR/82",
        y = "",
@@ -182,7 +184,8 @@ resid_plot_grouped <- player_train %>%
   mutate(lag_stat = ifelse(lag_stat > 20, 19.9, lag_stat),
          lag_category = classify_performance(lag_stat)) %>%
   ggplot(aes(x = resids)) +
-  geom_histogram(aes(y = after_stat(density)), fill = MY_COLOR, color = 'black') +
+  geom_histogram(aes(y = after_stat(density)), 
+                 fill = MY_COLOR, color = 'black', linewidth = 0.25) +
   facet_wrap(~lag_category) +
   labs(x = "Residual",
        y = "",
