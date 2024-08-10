@@ -64,7 +64,10 @@ mean(player_df$raw_change)
 sd(player_df$raw_change)
 
 
-intro_plots <- (war_dist_plot + change_dist_plot)
+intro_plots <- (war_dist_plot + change_dist_plot) &
+  theme(plot.title = element_text(hjust = 0.5, size = 15),
+        plot.background = element_rect(fill = "#E4DBD7", color = NA))
+intro_plots
 
 
 cor(player_df[c("career_stat", "lag_stat", "lag_raw_change", 
@@ -191,7 +194,9 @@ resid_plot_grouped <- player_train %>%
         strip.text = element_text(size = 12))
 
 resid_plots <- resid_plot + resid_plot_grouped +
-  plot_layout(widths = c(2,3))
+  plot_layout(widths = c(2,3)) &
+  theme(plot.title = element_text(hjust = 0.5, size = 15),
+        plot.background = element_rect(fill = "#E4DBD7", color = NA))
 resid_plots
 
 
@@ -357,7 +362,9 @@ model_comp_mll <- as.data.frame(mll_table) %>%
        subtitle = "OLS vs Bayesian Model Averaging (BMA)") +
   theme_bbs()
 
-performance_plots <- model_comp_rmse + model_comp_mll
+performance_plots <- (model_comp_rmse + model_comp_mll) &
+  theme(plot.title = element_text(hjust = 0.5, size = 15),
+        plot.background = element_rect(fill = "#E4DBD7", color = NA))
 performance_plots
 
 
@@ -689,7 +696,7 @@ plot_career_curve <- function(player_id, season, n_sim, n_years, saves, zInfo, f
 
 team_data <- hoopR::nba_teams()
 
-team_colors <- function(team_df, tm_abbrev) {
+get_team_colors <- function(team_df, tm_abbrev) {
   i <- which(team_df$team_abbreviation == tm_abbrev)
   c1 <- paste0("#", team_df[i, "color"])
   c2 <- paste0("#", team_df[i, "alternate_color"])
@@ -711,11 +718,11 @@ simulation_graphs <- function(player_name, player_id, season, team,
     labs(title = paste(player_name, "Simulated Progression"),
          subtitle = "Using Best 5-Year Stretch of Simulated WAR/82") +
     theme_bbs()
-  if (plots == "hist") {
+  if (length(plots) == 1 && plots == "hist") {
     return(g1)
-  } else if (plots == "levels") {
+  } else if (length(plots) == 1 && plots == "levels") {
     return(g2)
-  } else if ("hist" %in% plots & "levels" %in% plots) {
+  } else if (length(plots) == 2 && "hist" %in% plots && "levels" %in% plots) {
     return(list(hist = g1, levels = g2))
   } else {
     return()
@@ -734,10 +741,25 @@ simulation_graphs <- function(player_name, player_id, season, team,
 
 
 # Generate Plots
-simulation_graphs("Victor Wembanyama", "wembavi01", 2024, "SAS", 
-                  plots = "levels")
-simulation_graphs("Anthony Edwards", "edwaran01", 2024, "MIN", 
-                  plots = "levels")
+wemby <- simulation_graphs("Victor Wembanyama", "wembavi01", 2024, "SAS", 
+                           plots = c("hist", "levels"))
+wemby_plots <- (wemby$hist + wemby$levels) &
+  theme(plot.title = element_text(hjust = 0.5, size = 15),
+        plot.background = element_rect(fill = "#E4DBD7", color = NA))
+wemby_plots
+
+banchero <- simulation_graphs("Paolo Banchero", "banchpa01", 2024, "ORL", 
+                              plots = "levels")
+cunningham <- simulation_graphs("Cade Cunningham", "cunnica01", 2024, "DET", 
+                                plots = "levels")
+edwards <- simulation_graphs("Anthony Edwards", "edwaran01", 2024, "MIN", 
+                             plots = "levels")
+zion <- simulation_graphs("Zion Williamson", "willizi01", 2024, "NOP", 
+                          plots = "levels")
+player_plots <- (banchero + cunningham) / (edwards + zion) &
+  theme(plot.title = element_text(hjust = 0.5, size = 15),
+        plot.background = element_rect(fill = "#E4DBD7", color = NA))
+player_plots
 
 
 
@@ -777,7 +799,10 @@ ggsave(avg_aging_curve,
        filename = "img/avg_aging_curve.png", height = 5, width = 6)
 
 # Simulation Plots
-
+ggsave(wemby_plots,
+       filename = "img/wemby_plots.png", height = 8, width = 16)
+ggsave(player_plots,
+       filename = "img/player_plots.png", height = 20, width = 20)
 
 
 
