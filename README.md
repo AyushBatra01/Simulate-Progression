@@ -1,4 +1,6 @@
-SEE SHINY APP HERE: https://ayushbatra.shinyapps.io/simulate_progression/
+See Shiny app here: https://ayushbatra.shinyapps.io/simulate_progression/
+
+See detailed writeup: https://bestballstats.com/2024/08/11/mapping-nba-futures-simulating-career-trajectories-with-war-projections/
 
 
 
